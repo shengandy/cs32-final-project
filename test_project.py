@@ -58,4 +58,4 @@ def test_generate_summary():
     assert summary["repeated_words"] == ["is"]
     assert "very" in summary["weak_words"]
     assert "a lot" in summary["weak_phrases"]
-    
+

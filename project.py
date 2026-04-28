@@ -6,10 +6,12 @@ from helpers import (
 
 
 def print_header(title):
+    """Print a clean section header."""
     print(f"\n--- {title} ---")
 
 
 def print_stats(stats):
+    """Display core text statistics."""
     print_header("TEXT STATS")
     print(f"Words: {stats['word_count']}")
     print(f"Unique words: {stats['unique_word_count']}")
@@ -22,6 +24,7 @@ def print_stats(stats):
 
 
 def print_flags(summary):
+    """Display the main issues found in the user's writing."""
     print_header("FLAGS")
 
     repeated = summary["repeated_words"]
@@ -59,11 +62,11 @@ def print_flags(summary):
 
 
 def print_suggestions(summary):
+    """Print possible replacements for weak words and phrases."""
     print_header("SUGGESTIONS")
 
     weak_words = summary["weak_words"]
     weak_phrases = summary["weak_phrases"]
-
     printed_any = False
 
     for word in weak_words:
@@ -83,6 +86,7 @@ def print_suggestions(summary):
 
 
 def get_user_text():
+    """Let the user either paste text directly or load it from a file."""
     print("Choose an input method:")
     print("1. Type or paste text directly")
     print("2. Load text from a file")
@@ -109,6 +113,7 @@ def get_user_text():
 
 
 def main():
+    """Run the writing assistant program."""
     print("Welcome to the Writing Assistant!")
     text = get_user_text()
 
@@ -116,6 +121,7 @@ def main():
         print("No text entered.")
         return
 
+    # max_words controls when a sentence is considered too long
     summary = generate_summary(text, max_words=20)
 
     print_stats(summary["stats"])
@@ -129,4 +135,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    

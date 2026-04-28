@@ -33,7 +33,6 @@ WEAK_WORDS = {
     "fine",
     "okay",
     "helpful",
-    "interesting",
     "serious",
 }
 

@@ -4,16 +4,18 @@ from dictionary import WEAK_WORDS, THESAURUS, PHRASE_SUGGESTIONS
 
 def tokenize_words(text):
     """
-    Return a lowercase list of word tokens.
-    Apostrophes are allowed so contractions like "don't" stay together.
+    Convert text into lowercase word tokens.
+
+    Apostrophes are allowed so contractions like "don't"
+    are treated as one word.
     """
     return re.findall(r"[A-Za-z']+", text.lower())
 
 
 def split_sentences(text):
     """
-    Split text into sentences based on ., !, or ?.
-    Empty results are removed.
+    Split text into sentences using ., !, or ? as boundaries.
+    Empty pieces are removed.
     """
     sentences = re.split(r"[.!?]+", text)
     return [sentence.strip() for sentence in sentences if sentence.strip()]
@@ -38,8 +40,8 @@ def count_occurrences(words_or_phrases):
 
 def get_readability_label(avg_sentence_length, avg_word_length):
     """
-    Return a simple readability label based on average sentence
-    and word length. This is intentionally lightweight and heuristic.
+    Return a simple readability label based on average
+    sentence length and average word length.
     """
     if avg_sentence_length <= 12 and avg_word_length <= 4.7:
         return "Easy to read"
@@ -49,9 +51,7 @@ def get_readability_label(avg_sentence_length, avg_word_length):
 
 
 def get_text_stats(text):
-    """
-    Compute basic statistics about the text.
-    """
+    """Compute basic statistics about the text."""
     words = tokenize_words(text)
     sentences = split_sentences(text)
 
@@ -62,7 +62,6 @@ def get_text_stats(text):
     avg_word_length = (
         sum(len(word) for word in words) / word_count if word_count > 0 else 0
     )
-
     avg_sentence_length = (
         word_count / sentence_count if sentence_count > 0 else 0
     )
@@ -88,8 +87,8 @@ def get_text_stats(text):
 
 def find_repeated_words(text):
     """
-    Find consecutive repeated words, like 'is is' or 'the the'.
-    Returns each repeated word only once.
+    Find consecutive repeated words such as 'is is' or 'the the'.
+    Each repeated word is returned only once.
     """
     words = tokenize_words(text)
     repeated = []
@@ -102,9 +101,7 @@ def find_repeated_words(text):
 
 
 def find_long_sentences(text, max_words=20):
-    """
-    Return sentences whose word counts exceed max_words.
-    """
+    """Return sentences whose word counts exceed max_words."""
     sentences = split_sentences(text)
     results = []
 
@@ -118,17 +115,16 @@ def find_long_sentences(text, max_words=20):
 
 def find_weak_words(text):
     """
-    Return weak single-word matches found in the text,
-    including duplicates so frequency can be measured later.
+    Return weak single-word matches found in the text.
+
+    Duplicates are kept so the program can count frequency later.
     """
     words = tokenize_words(text)
     return [word for word in words if word in WEAK_WORDS]
 
 
 def unique_in_order(items):
-    """
-    Return unique items while preserving first appearance order.
-    """
+    """Return unique items while preserving original order."""
     seen = set()
     ordered = []
 
@@ -142,9 +138,11 @@ def unique_in_order(items):
 
 def find_weak_phrases(text):
     """
-    Detect weak multi-word phrases using regex word boundaries
-    so partial matches inside larger words are avoided.
-    Includes duplicates so frequency can be measured later.
+    Detect weak multi-word phrases using regex word boundaries.
+
+    Word boundaries prevent partial matches inside larger words.
+    For example, a phrase should not match inside some unrelated token.
+    Duplicates are kept so frequency can be measured later.
     """
     lowered = text.lower()
     found = []
@@ -158,22 +156,19 @@ def find_weak_phrases(text):
 
 
 def suggest_synonyms(word):
-    """
-    Return synonym suggestions for a weak word.
-    """
+    """Return synonym suggestions for a weak word."""
     return THESAURUS.get(word.lower(), [])
 
 
 def suggest_phrase_replacements(phrase):
-    """
-    Return suggested replacements for weak phrases.
-    """
+    """Return suggested replacements for a weak phrase."""
     return PHRASE_SUGGESTIONS.get(phrase.lower(), [])
 
 
 def generate_summary(text, max_words=20):
     """
-    Run the main analysis pipeline and return results in one dictionary.
+    Run the full analysis pipeline and collect all results
+    in a single dictionary for project.py to display.
     """
     stats = get_text_stats(text)
     repeated = find_repeated_words(text)
@@ -197,4 +192,3 @@ def generate_summary(text, max_words=20):
         "weak_word_counts": weak_word_counts,
         "weak_phrase_counts": weak_phrase_counts,
     }
-

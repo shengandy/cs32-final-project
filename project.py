@@ -18,6 +18,7 @@ def print_stats(stats):
     print(f"Average word length: {stats['avg_word_length']:.2f}")
     print(f"Average sentence length: {stats['avg_sentence_length']:.2f}")
     print(f"Lexical diversity: {stats['lexical_diversity']:.2f}")
+    print(f"Readability: {stats['readability']}")
 
 
 def print_flags(summary):
@@ -25,8 +26,8 @@ def print_flags(summary):
 
     repeated = summary["repeated_words"]
     long_sentences = summary["long_sentences"]
-    weak_words = summary["weak_words"]
-    weak_phrases = summary["weak_phrases"]
+    weak_word_counts = summary["weak_word_counts"]
+    weak_phrase_counts = summary["weak_phrase_counts"]
 
     if repeated:
         print("Repeated words found:")
@@ -42,17 +43,17 @@ def print_flags(summary):
     else:
         print("\nNo long sentences found.")
 
-    if weak_words:
+    if weak_word_counts:
         print("\nWeak words found:")
-        for word in weak_words:
-            print(f"- {word}")
+        for word, count in weak_word_counts:
+            print(f"- {word} ({count})")
     else:
         print("\nNo weak words found.")
 
-    if weak_phrases:
+    if weak_phrase_counts:
         print("\nWeak phrases found:")
-        for phrase in weak_phrases:
-            print(f"- {phrase}")
+        for phrase, count in weak_phrase_counts:
+            print(f"- {phrase} ({count})")
     else:
         print("\nNo weak phrases found.")
 
@@ -63,25 +64,19 @@ def print_suggestions(summary):
     weak_words = summary["weak_words"]
     weak_phrases = summary["weak_phrases"]
 
-    shown_words = set()
-    shown_phrases = set()
     printed_any = False
 
     for word in weak_words:
-        if word not in shown_words:
-            suggestions = suggest_synonyms(word)
-            if suggestions:
-                print(f"{word}: {', '.join(suggestions)}")
-                shown_words.add(word)
-                printed_any = True
+        suggestions = suggest_synonyms(word)
+        if suggestions:
+            print(f"{word}: {', '.join(suggestions)}")
+            printed_any = True
 
     for phrase in weak_phrases:
-        if phrase not in shown_phrases:
-            suggestions = suggest_phrase_replacements(phrase)
-            if suggestions:
-                print(f"{phrase}: {', '.join(suggestions)}")
-                shown_phrases.add(phrase)
-                printed_any = True
+        suggestions = suggest_phrase_replacements(phrase)
+        if suggestions:
+            print(f"{phrase}: {', '.join(suggestions)}")
+            printed_any = True
 
     if not printed_any:
         print("No replacement suggestions needed.")
@@ -127,11 +122,11 @@ def main():
     print_flags(summary)
     print_suggestions(summary)
 
-    print_header("STATUS NOTE")
-    print("This is a prototype version of the assistant.")
-    print("The current version focuses on core analysis features,")
-    print("while future work will improve revision quality and usability.")
+    print_header("REVISION NOTE")
+    print("This tool is designed to highlight revision opportunities,")
+    print("not to replace human judgment. Use the suggestions selectively.")
 
 
 if __name__ == "__main__":
     main()
+    

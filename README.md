@@ -1,18 +1,20 @@
 # Writing Assistant
+
 This is Andy Sheng's final project for CS32.
 
 ## Project Description
-Writing Assistant is a command-line Python program that analyzes a piece of writing and gives the user revision-oriented feedback.
+Writing Assistant is a command-line Python program that analyzes a piece of writing and gives revision-oriented feedback.
 
-At this status-report stage, the project can:
-- calculate basic text statistics
-- detect consecutive repeated words
-- flag overly long sentences
-- identify weak words
-- identify weak phrases
-- suggest stronger replacements from a small built-in dictionary
+The program helps users identify:
+- repeated words
+- overly long sentences
+- weak words
+- weak phrases
+- possible stronger replacements
 
-The goal of the project is to help a user quickly review a paragraph and notice places where the writing may be unclear, repetitive, or weak.
+It also calculates basic text statistics, including word count, sentence count, average word length, average sentence length, lexical diversity, and a simple readability label.
+
+The goal of the project is to help a user quickly review a paragraph and notice places where the writing may be repetitive, vague, or weaker than it could be.
 
 ## Files
 - `project.py` - main program and user interaction
@@ -25,5 +27,3 @@ Run the program with:
 
 ```bash
 python project.py
-
-

@@ -1,6 +1,6 @@
 # Writing Assistant
 
-This is Andrew Sheng's final project for CS32.
+This is Andy Sheng's final project for CS32
 
 ## Project Description
 Writing Assistant is a command-line Python program that analyzes a piece of writing and gives revision-oriented feedback.
